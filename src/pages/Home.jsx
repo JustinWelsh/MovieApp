@@ -55,6 +55,12 @@ const Home = () => {
     onOpen();
   };
 
+  const carouselConfig = [
+    { title: "Trending Movies", movies: trendingMovies },
+    { title: "Trending TV Shows", movies: trendingTV },
+    { title: "Popular Movies", movies: popularMovies },
+    { title: "Popular TV Shows", movies: popularTV },
+  ];
 
   return (
     <NextUIProvider>
@@ -70,56 +76,20 @@ const Home = () => {
       />
       <section className="">
         <div className="p-8">
-          <motion.div {...fadeInUp30}>
-            <h2 className="text-white text-xl p-3 font-bold">Popular Movies</h2>
-            {loading ? (
-              <SkeletonCards />
-            ) : (
-              <MovieCarousel
-                movies={popularMovies}
-                handleMovieClick={handleMovieClick}
-              />
-            )}
-          </motion.div>
-          <motion.div {...fadeInUp30}>
-            <h2 className="text-white text-xl p-3 font-bold mt-8">
-              Popular TV Shows
-            </h2>
-            {loading ? (
-              <SkeletonCards />
-            ) : (
-              <MovieCarousel
-                movies={popularTV}
-                handleMovieClick={handleMovieClick}
-              />
-            )}
-          </motion.div>
-          <motion.div {...fadeInUp30}>
-            <h2 className="text-white text-xl p-3 font-bold mt-8">
-              Trending Movies
-            </h2>
-            {loading ? (
-              <SkeletonCards />
-            ) : (
-              <MovieCarousel
-                movies={trendingMovies}
-                handleMovieClick={handleMovieClick}
-              />
-            )}
-          </motion.div>
-          <motion.div {...fadeInUp30}>
-            <h2 className="text-white text-xl p-3 font-bold mt-8">
-              Trending TV Shows
-            </h2>
-            {loading ? (
-              <SkeletonCards />
-            ) : (
-              <MovieCarousel
-                movies={trendingTV}
-                handleMovieClick={handleMovieClick}
-              />
-            )}
-          </motion.div>
+          {carouselConfig.map(({ title, movies }) => (
+            <motion.div {...fadeInUp30}>
+              <h2 className="text-white text-xl p-3 font-bold">{title}</h2>
+              {loading ? (
+                <SkeletonCards />
+              ) : (
+                <MovieCarousel
+                  movies={movies}
+                  handleMovieClick={handleMovieClick}
+                />
+              )}
+            </motion.div>
+          ))}
+          <hr />
         </div>
       </section>
     </NextUIProvider>
