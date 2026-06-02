@@ -30,7 +30,7 @@ export function NavBar() {
         localStorage.setItem("userSearchInput", "");
       } else {
         const results = await searchByMovieTitle(
-          localStorage.getItem("userSearchInput")
+          localStorage.getItem("userSearchInput"),
         );
         if (results) {
           navigate("/search");
@@ -39,7 +39,7 @@ export function NavBar() {
       }
     };
     initialize();
-  }, [navigate, updateSearchedMovies]);
+  }, [navigate]);
 
   const navbarItems = [
     { label: "Home", to: "/" },
