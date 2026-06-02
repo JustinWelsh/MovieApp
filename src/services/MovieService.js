@@ -23,7 +23,7 @@ export async function fetchTrending(type = "all") {
 }
 
 export async function searchByMovieTitle(movieTitle) {
-     if (!movieTitle) throw new Error("No movie title provided");
+     if (!movieTitle) return;
  
   const response = await fetch(`/api/search?query=${encodeURIComponent(movieTitle)}`);
 
@@ -35,7 +35,7 @@ export async function searchByMovieTitle(movieTitle) {
 }
 
 export async function fetchTrailer(movieID) {
-     if (!movieID) throw new Error("No movie ID provided");
+     if (!movieID) return;
 
   const response = await fetch(`/api/trailer?movieId=${movieID}`);
 
