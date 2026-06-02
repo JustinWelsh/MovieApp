@@ -77,7 +77,12 @@ const Home = () => {
       <section className="">
         <div className="p-8">
           {carouselConfig.map(({ id, title, movies }) => (
-            <motion.div {...fadeInUp30} id={id} key={id}>
+            <motion.div
+              {...fadeInUp30}
+              id={id}
+              key={id}
+              className="overflow-y-clip"
+            >
               <h2 className="text-white text-xl p-3 font-bold">{title}</h2>
               {loading ? (
                 <SkeletonCards />
