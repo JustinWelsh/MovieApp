@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { fetchPopular, fetchTrending } from "../services/MovieService";
 import MovieCarousel from "../components/carousel/MovieCarousel";
 import MovieModal from "../components/modal/MovieModal";
+import HeroBanner from "../components/hero/HeroBanner";
 import { fadeInUp30 } from "../_config/animations";
 
 const Home = () => {
@@ -62,14 +63,11 @@ const Home = () => {
         onOpenChange={onOpenChange}
         selectedMovie={selectedMovie}
       />
-      <section className="">
-        <div className="p-8">
-          <h2 className="text-5xl">Welcome.</h2>
-          <h3 className="text-3xl">
-            Millions of movies, TV shows and people to discover. Explore now.
-          </h3>
-        </div>
-      </section>
+      <HeroBanner
+        movie={trendingMovies[0]}
+        onMoreInfo={handleMovieClick}
+        onPlay={() => handleMovieClick(trendingMovies[0])}
+      />
       <section className="">
         <div className="p-8">
           <motion.div {...fadeInUp30}>
