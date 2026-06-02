@@ -56,10 +56,10 @@ const Home = () => {
   };
 
   const carouselConfig = [
-    { title: "Trending Movies", movies: trendingMovies },
-    { title: "Trending TV Shows", movies: trendingTV },
-    { title: "Popular Movies", movies: popularMovies },
-    { title: "Popular TV Shows", movies: popularTV },
+    { id: "trending-movies", title: "Trending Movies", movies: trendingMovies },
+    { id: "trending-tv", title: "Trending TV Shows", movies: trendingTV },
+    { id: "popular-movies", title: "Popular Movies", movies: popularMovies },
+    { id: "popular-tv", title: "Popular TV Shows", movies: popularTV },
   ];
 
   return (
@@ -76,8 +76,8 @@ const Home = () => {
       />
       <section className="">
         <div className="p-8">
-          {carouselConfig.map(({ title, movies }) => (
-            <motion.div {...fadeInUp30}>
+          {carouselConfig.map(({ id, title, movies }) => (
+            <motion.div {...fadeInUp30} id={id} key={id}>
               <h2 className="text-white text-xl p-3 font-bold">{title}</h2>
               {loading ? (
                 <SkeletonCards />
