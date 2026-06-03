@@ -55,6 +55,9 @@ const Home = () => {
     onOpen();
   };
 
+  const heroConfig = {
+    movie: trendingMovies[0],
+  };
   const carouselConfig = [
     { id: "trending-movies", title: "Trending Movies", movies: trendingMovies },
     { id: "trending-tv", title: "Trending TV Shows", movies: trendingTV },
@@ -70,11 +73,11 @@ const Home = () => {
         selectedMovie={selectedMovie}
       />
       <HeroBanner
-        movie={trendingMovies[0]}
+        movie={heroConfig.movie}
         onMoreInfo={handleMovieClick}
         onPlay={() => handleMovieClick(trendingMovies[0])}
       />
-      <section className="">
+      <section>
         <div className="p-8">
           {carouselConfig.map(({ id, title, movies }) => (
             <motion.div
