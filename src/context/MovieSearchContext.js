@@ -1,14 +1,14 @@
 // contexts/ThemeContext.js
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 
 const MovieSearchContext = createContext(null);
 
 const MovieSearchProvider = ({ children }) => {
   const [searchedMovies, setSearchedMovies] = useState({});
 
-  const updateSearchedMovies = (obj) => {
+  const updateSearchedMovies = useCallback((obj) => {
     setSearchedMovies(obj);
-  };
+  }, []);
 
   return (
     <MovieSearchContext.Provider

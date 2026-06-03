@@ -39,7 +39,7 @@ export function NavBar() {
       }
     };
     initialize();
-  }, [navigate]);
+  }, [navigate, updateSearchedMovies]);
 
   const navbarItems = [
     { label: "Home", to: "/" },
