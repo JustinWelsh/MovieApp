@@ -2,7 +2,7 @@ import MovieCard from "../card/MovieCard";
 
 function MovieCarousel({ movies, handleMovieClick }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto overflow-y-clip">
       <div className="flex gap-4 pb-4" style={{ width: "max-content" }}>
         {movies &&
           movies.map((movie) => (
