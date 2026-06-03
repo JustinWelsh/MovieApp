@@ -72,11 +72,13 @@ const Home = () => {
         onOpenChange={onOpenChange}
         selectedMovie={selectedMovie}
       />
-      <HeroBanner
-        movie={heroConfig.movie}
-        onMoreInfo={handleMovieClick}
-        onPlay={() => handleMovieClick(trendingMovies[0])}
-      />
+      <div className="-mt-16">
+        <HeroBanner
+          movie={heroConfig.movie}
+          onMoreInfo={handleMovieClick}
+          onPlay={() => handleMovieClick(trendingMovies[0])}
+        />
+      </div>
       <section>
         <div className="p-8">
           {carouselConfig.map(({ id, title, movies }) => (
