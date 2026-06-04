@@ -28,15 +28,17 @@ const fadeUp = {
   }),
 };
 
+const sectionProps = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.5, ease: "easeOut" },
+};
+
 const About = () => {
   return (
     <div className="min-h-screen p-8 max-w-3xl">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
+      <motion.div {...sectionProps}>
         <h1 className="text-5xl font-bold mb-3">About</h1>
         <p className="text-slate-400 text-lg leading-relaxed mb-12">
           A personal project for browsing movies, discovering what's trending,
@@ -46,10 +48,8 @@ const About = () => {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        {...sectionProps}
+        transition={{ ...sectionProps.transition, delay: 0.1 }}
         className="mb-12"
       >
         <h2 className="text-xl font-bold mb-5">Features</h2>
@@ -72,10 +72,8 @@ const About = () => {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        {...sectionProps}
+        transition={{ ...sectionProps.transition, delay: 0.1 }}
         className="mb-12"
       >
         <h2 className="text-xl font-bold mb-5">Built With</h2>
@@ -93,10 +91,8 @@ const About = () => {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        {...sectionProps}
+        transition={{ ...sectionProps.transition, delay: 0.1 }}
         className="flex items-center gap-4 border-t border-white/10 pt-8"
       >
         <img src="/TMDB.svg" alt="TMDB Logo" className="h-6 opacity-80" />
