@@ -37,24 +37,38 @@ function MovieCard({ movie }) {
   const { watchlist, addMovieToWatchlist, removeMovieFromWatchlist } =
     useWatchlistContext();
 
-  const isInWatchlist = watchlist.some((m) => m.id === movie.id);
-  const title = movie.title || movie.name;
-  const releaseYear = (movie.release_date || movie.first_air_date || "").split(
-    "-",
-  )[0];
-  const rating = movie.vote_average ? movie.vote_average.toFixed(1) : null;
-  const genres = (movie.genre_ids || [])
-    .slice(0, 3)
-    .map((id) => GENRE_MAP[id])
-    .filter(Boolean);
+      const posterUrl = movie.poster_path
+        ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+        : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
 
-  const posterUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-    : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
+      const movieDetails = {
+        title: movie.title || movie.name,
+        release_year: (movie.release_date || movie.first_air_date || "").split(
+          "-",
+        )[0],
+        rating: movie.vote_average ? movie.vote_average.toFixed(1) : null,
+        genres: (movie.genre_ids || [])
+          .slice(0, 3)
+          .map((id) => GENRE_MAP[id])
+          .filter(Boolean),
+        poster_URL: posterUrl,
+        backdrop_URL: movie.backdrop_path
+          ? `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`
+          : posterUrl,
+        is_in_watchlist: watchlist.some((m) => m.id === movie.id),
+      };
+      const {
+        title,
+        release_year,
+        rating,
+        genres,
+        poster_URL,
+        backdrop_URL,
+        is_in_watchlist,
+      } = movieDetails;
 
-  const backdropUrl = movie.backdrop_path
-    ? `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`
-    : posterUrl;
+
+
 
   useEffect(() => {
     const dismissOnScroll = () => {
@@ -81,7 +95,7 @@ function MovieCard({ movie }) {
 
   const toggleWatchlist = (e) => {
     e.stopPropagation();
-    if (isInWatchlist) {
+    if (is_in_watchlist) {
       removeMovieFromWatchlist(movie.id);
     } else {
       addMovieToWatchlist(movie);
@@ -112,7 +126,7 @@ function MovieCard({ movie }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Image width={200} alt={title} src={posterUrl} />
+        <Image width={200} alt={title} src={poster_URL} />
       </motion.div>
 
       {ReactDOM.createPortal(
@@ -133,7 +147,7 @@ function MovieCard({ movie }) {
               className="rounded-xl overflow-hidden shadow-2xl bg-zinc-900 cursor-pointer"
             >
               <img
-                src={backdropUrl}
+                src={backdrop_URL}
                 alt={title}
                 className="w-full object-cover"
                 style={{ aspectRatio: "16/9" }}
@@ -147,7 +161,7 @@ function MovieCard({ movie }) {
                     onClick={toggleWatchlist}
                     className="flex items-center gap-1 bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors"
                   >
-                    {isInWatchlist ? "✓ Watchlist" : "+ Watchlist"}
+                    {is_in_watchlist ? "✓ Watchlist" : "+ Watchlist"}
                   </button>
                   <button
                     onClick={(e) => e.stopPropagation()}
@@ -163,7 +177,7 @@ function MovieCard({ movie }) {
                       ★ {rating}
                     </span>
                   )}
-                  {releaseYear && <span>{releaseYear}</span>}
+                  {release_year && <span>{release_year}</span>}
                   <span className="border border-zinc-600 px-1 text-[10px] rounded">
                     HD
                   </span>
