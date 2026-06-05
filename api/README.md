@@ -25,7 +25,7 @@ Browser → /api/* → TMDB API (key never reaches browser)
 |---|---|
 | `TMDB_KEY` | Your TMDB API key — set in `.env` locally, and in Vercel project settings for production |
 
-`TMDB_KEY` needs to be defined in two places because local and production environments are completely separate:
+`TMDB_KEY` needs to be defined in **TWO** places because *local* and *production* environments are completely separate:
 
 - **`.env`** — used by `vercel dev` on your machine. Vercel reads this file and injects the variable into your serverless functions at runtime locally. This file is gitignored and never leaves your machine.
 - **Vercel project settings** — used when your app is deployed. Vercel's servers have no knowledge of your local `.env` file, so the key must be explicitly added in the dashboard under Settings → Environment Variables. Vercel injects it into the functions at deploy time.
@@ -34,7 +34,7 @@ If `TMDB_KEY` is missing from either place, the functions will have access to `u
 
 ## Local Development
 
-These functions only run when using `vercel dev`. They will not work with `npm start`.
+These functions only run when using `vercel dev` (npm run serve). They will not work with `npm start`.
 
 ## References
 
