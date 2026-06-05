@@ -111,7 +111,7 @@ function MovieCard({ movie }) {
           ),
         ),
         width: OVERLAY_WIDTH,
-        zIndex: 9999,
+        zIndex: 11,
       }
     : {};
 
