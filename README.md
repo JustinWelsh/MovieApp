@@ -49,10 +49,9 @@ vercel link
 TMDB_KEY=your_tmdb_api_key_here
 ```
 
-4. Start the dev server:
-
+4. Start the dev server: ( `vercel dev` will be executed in the following command)
 ```bash
-vercel dev
+npm run serve
 ```
 
 The app runs at [http://localhost:3000](http://localhost:3000).
