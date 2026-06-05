@@ -102,7 +102,7 @@ function MovieCard({ movie }) {
   const overlayStyle = rect
     ? {
         position: "fixed",
-        top: rect.top,
+        top: rect.top - 40,
         left: Math.max(
           8,
           Math.min(
