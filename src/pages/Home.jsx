@@ -7,9 +7,10 @@ import MovieCarousel from "../components/carousel/MovieCarousel";
 import MovieModal from "../components/modal/MovieModal";
 import HeroBanner from "../components/hero/HeroBanner";
 import { fadeInUp30 } from "../_config/animations";
+import { useMovieSearchContext } from "../context/MovieSearchContext";
 
 const Home = () => {
-  const [selectedMovie, setSelectedMovie] = useState({});
+  const { selectedMovie, updateSelectedMovie } = useMovieSearchContext();
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularTV, setPopularTV] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -51,7 +52,7 @@ const Home = () => {
   }, []);
 
   const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
+    updateSelectedMovie(movie);
     onOpen();
   };
 

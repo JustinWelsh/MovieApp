@@ -6,12 +6,12 @@ import { useDisclosure } from "@nextui-org/react";
 
 const Search = () => {
   const { searchedMovies } = useMovieSearchContext();
-  const [selectedMovie, setSelectedMovie] = useState({});
+  const { selectedMovie, updateSelectedMovie } = useMovieSearchContext();
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleClick = (movie) => {
-    setSelectedMovie(movie);
+    updateSelectedMovie(movie);
     onOpen();
   };
   return (
