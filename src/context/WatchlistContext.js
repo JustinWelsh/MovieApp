@@ -26,9 +26,18 @@ const WatchlistProvider = ({ children }) => {
     setWatchlist((prev) => prev.filter((movie) => movie.id !== movieId));
   };
 
+  const isMovieInWatchlist = (movieId) => {
+    return watchlist.some((m) => m.id === movieId);
+  };
+
   return (
     <WatchlistContext.Provider
-      value={{ watchlist, addMovieToWatchlist, removeMovieFromWatchlist }}
+      value={{
+        watchlist,
+        addMovieToWatchlist,
+        removeMovieFromWatchlist,
+        isMovieInWatchlist,
+      }}
     >
       {children}
     </WatchlistContext.Provider>

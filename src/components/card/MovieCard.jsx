@@ -34,9 +34,11 @@ function MovieCard({ movie }) {
   const [rect, setRect] = useState(null);
   const cardRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
-  const { watchlist, addMovieToWatchlist, removeMovieFromWatchlist } =
+  const { addMovieToWatchlist, removeMovieFromWatchlist, isMovieInWatchlist } =
     useWatchlistContext();
 
+    const isInWatchlist = isMovieInWatchlist(movie.id);
+    
   const posterUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
     : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
@@ -55,17 +57,9 @@ function MovieCard({ movie }) {
     backdrop_URL: movie.backdrop_path
       ? `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`
       : posterUrl,
-    is_in_watchlist: watchlist.some((m) => m.id === movie.id),
   };
-  const {
-    title,
-    release_year,
-    rating,
-    genres,
-    poster_URL,
-    backdrop_URL,
-    is_in_watchlist,
-  } = movieDetails;
+  const { title, release_year, rating, genres, poster_URL, backdrop_URL } =
+    movieDetails;
 
   useEffect(() => {
     const dismissOnScroll = () => {
@@ -92,7 +86,7 @@ function MovieCard({ movie }) {
 
   const toggleWatchlist = (e) => {
     e.stopPropagation();
-    if (is_in_watchlist) {
+    if (isInWatchlist) {
       removeMovieFromWatchlist(movie.id);
     } else {
       addMovieToWatchlist(movie);
@@ -158,7 +152,7 @@ function MovieCard({ movie }) {
                     onClick={toggleWatchlist}
                     className="flex items-center gap-1 bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors"
                   >
-                    {is_in_watchlist ? "✓ Watchlist" : "+ Watchlist"}
+                    {isInWatchlist ? "✓ Watchlist" : "+ Watchlist"}
                   </button>
                   <button
                     onClick={(e) => e.stopPropagation()}
