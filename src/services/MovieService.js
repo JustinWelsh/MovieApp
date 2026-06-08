@@ -45,3 +45,21 @@ export async function fetchTrailer(movieID) {
 
   return response.json();
 }
+
+/**
+ * Fetches details from TMDB.
+ * @param {number} movieID
+ */
+export async function fetchDetails(movieID) {
+  if (!movieID) return;
+
+  const response = await fetch(`/api/details?movieId=${movieID}`);
+
+  if (!response.ok) {
+    throw new Error(
+      `Error fetching movie details data: Status ${response.status}`,
+    );
+  }
+
+  return response.json();
+}
