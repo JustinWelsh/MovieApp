@@ -51,25 +51,29 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
       classNames={{ base: "bg-zinc-900" }}
     >
       <ModalContent>
-        {(onClose) =>
-          showTrailer ? (
-            <iframe
-              className="rounded-xl"
-              width="100%"
-              height="450"
-              src={`https://www.youtube.com/embed/${trailer.key}`}
-              title="Movie Trailer"
-              style={{ border: 0 }}
-              allowFullScreen
-            />
-          ) : (
-            <>
-              <img
-                src={backdropUrl}
-                alt=""
-                className="w-full object-cover rounded-t-xl"
-                style={{ aspectRatio: "16/9" }}
+        {(onClose) => (
+          <>
+            {showTrailer ? (
+              <iframe
+                className="rounded-xl"
+                width="100%"
+                height="450"
+                src={`https://www.youtube.com/embed/${trailer.key}`}
+                title="Movie Trailer"
+                style={{ border: 0 }}
+                allowFullScreen
               />
+            ) : (
+              <>
+                <img
+                  src={backdropUrl}
+                  alt=""
+                  className="w-full object-cover rounded-t-xl"
+                  style={{ aspectRatio: "16/9" }}
+                />
+              </>
+            )}
+            {movieDetails ? (
               <MovieDetails
                 selectedMovie={selectedMovie}
                 movieDetails={movieDetails}
@@ -77,9 +81,9 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
                 setShowTrailer={setShowTrailer}
                 onClose={onClose}
               />
-            </>
-          )
-        }
+            ) : null}
+          </>
+        )}
       </ModalContent>
     </Modal>
   );
@@ -92,33 +96,18 @@ const MovieDetails = ({
   setShowTrailer,
   onClose,
 }) => {
-  //   const {
-  //     id,
-  //     title,
-  //     name,
-  //     release_date,
-  //     first_air_date,
-  //     overview,
-  //     vote_average,
-  //   } = selectedMovie;
-  const {
-    watchlist,
-    addMovieToWatchlist,
-    removeMovieFromWatchlist,
-    isMovieInWatchlist,
-  } = useWatchlistContext();
+  const { addMovieToWatchlist, removeMovieFromWatchlist, isMovieInWatchlist } =
+    useWatchlistContext();
 
-  //   const displayTitle = title || name;
-  //   const date = release_date || first_air_date;
-  const rating = movieDetails?.vote_average
-    ? movieDetails?.vote_average.toFixed(1)
-    : null;
-  //   const release_year = (date || "").split("-")[0];
-  const isInWatchlist = isMovieInWatchlist(movieDetails?.id);
+  const { vote_average, release_date, id, genres, runtime, title, overview } =
+    movieDetails;
 
-  const genres = movieDetails?.genres ?? [];
-  const runtime = movieDetails?.runtime
-    ? `${Math.floor(movieDetails.runtime / 60)}h ${movieDetails.runtime % 60}m`
+  const rating = vote_average ? vote_average.toFixed(1) : null;
+  const releaseYear = release_date.split("-")[0];
+  const isInWatchlist = isMovieInWatchlist(id);
+
+  const runTime = runtime
+    ? `${Math.floor(runtime / 60)}h ${runtime % 60}m`
     : null;
 
   const toggleWatchlist = () => {
@@ -131,16 +120,16 @@ const MovieDetails = ({
 
   console.log(movieDetails);
 
-  return movieDetails ? (
+  return (
     <div className="p-5 flex flex-col gap-3 text-white">
-      <p className="font-bold text-lg">{movieDetails.title}</p>
+      <p className="font-bold text-lg">{title}</p>
 
       <div className="flex items-center gap-2 text-xs text-zinc-400">
         {rating && (
-          <span className="text-green-400 font-semibold">★ {"rating"}</span>
+          <span className="text-green-400 font-semibold">★ {rating}</span>
         )}
-        {"release_year" && <span>{"release_year"}</span>}
-        {runtime && <span>{runtime}</span>}
+        {releaseYear && <span>{releaseYear}</span>}
+        {runTime && <span>{runTime}</span>}
         <span className="border border-zinc-600 px-1 text-[10px] rounded">
           HD
         </span>
@@ -157,10 +146,8 @@ const MovieDetails = ({
         </div>
       )}
 
-      {movieDetails?.overview && (
-        <p className="text-sm text-zinc-300 leading-relaxed">
-          {movieDetails?.overview}
-        </p>
+      {overview && (
+        <p className="text-sm text-zinc-300 leading-relaxed">{overview}</p>
       )}
 
       <div className="flex items-center gap-2 mt-1">
@@ -188,7 +175,7 @@ const MovieDetails = ({
         </button>
       </div>
     </div>
-  ) : null;
-};;;
+  );
+};
 
 export default MovieModal;
