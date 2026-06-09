@@ -1,13 +1,13 @@
 // https://api.themoviedb.org/3/movie/{movie_id}
 //  https://api.themoviedb.org/3/tv/{series_id}
 module.exports = async function handler(req, res) {
-  const { type = "movie", movieId } = req.query;
+  const { mediaType = "movie", mediaId } = req.query;
 
-    if (!movieId) {
-    return res.status(400).json({ error: "Missing movieId parameter" });
-  }
+    if (!mediaId) {
+      return res.status(400).json({ error: "Missing mediaId parameter" });
+    }
   const response = await fetch(
-    `https://api.themoviedb.org/3/${type}/${movieId}?language=en-US&api_key=${process.env.TMDB_KEY}`,
+    `https://api.themoviedb.org/3/${mediaType}/${mediaId}?language=en-US&api_key=${process.env.TMDB_KEY}`,
   );
 
   if (!response.ok) {

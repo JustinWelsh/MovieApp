@@ -48,13 +48,18 @@ export async function fetchTrailer(movieID) {
 
 /**
  * Fetches details from TMDB.
- * @param {number} movieID
- * @param {"movie" | "tv"} type
+ * @param {number} mediaId
+ * @param {"movie" | "tv"} mediaType
  */
-export async function fetchDetails(type = "movie", movieID) {
-  if (!movieID) return;
+export async function fetchDetails(mediaType = "movie", mediaId) {
+  if (!mediaId) {
+    console.warn("fetchDetails called without a mediaId");
+    return;
+  }
 
-  const response = await fetch(`/api/details?type=${type}&movieId=${movieID}`);
+  const response = await fetch(
+    `/api/details?mediaType=${mediaType}&mediaId=${mediaId}`,
+  );
 
   if (!response.ok) {
     throw new Error(
