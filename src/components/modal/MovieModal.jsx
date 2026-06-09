@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-} from "@nextui-org/react";
+import { Modal, ModalContent } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { BiMoviePlay } from "react-icons/bi";
 import { useWatchlistContext } from "../../context/WatchlistContext";
@@ -15,8 +8,8 @@ import { fadeInUp10 } from "../../_config/animations";
 
 function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
   const [trailer, setTrailer] = useState(null);
-  const [showTrailer, setShowTrailer] = useState(null);
-  const { id, backdrop_path } = selectedMovie;
+  const [showTrailer, setShowTrailer] = useState(false);
+  const { id, backdrop_path, poster_path } = selectedMovie;
 
   useEffect(() => {
     if (!isOpen) {
@@ -37,148 +30,138 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
 
     fetchData();
   }, [isOpen, id]);
-  const backDropImage = `https://image.tmdb.org/t/p/original${backdrop_path}`;
+
+  const backdropUrl = backdrop_path
+    ? `https://image.tmdb.org/t/p/w1280${backdrop_path}`
+    : poster_path
+      ? `https://image.tmdb.org/t/p/w780${poster_path}`
+      : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      size="2xl"
+      classNames={{ base: "bg-zinc-900" }}
+    >
       <ModalContent>
-        {(onClose) => (
-          <div
-            className="p-8 min-h-[800px] text-white text-shadow relative bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${backDropImage})`,
-            }}
-          >
-            {showTrailer ? (
-              <iframe
-                className="rounded-xl"
-                width="100%"
-                height="750"
-                src={`https://www.youtube.com/embed/${trailer.key}`}
-                title="Movie Trailer"
-                frameBorder="0"
-                allowFullScreen
+        {(onClose) =>
+          showTrailer ? (
+            <iframe
+              className="rounded-xl"
+              width="100%"
+              height="450"
+              src={`https://www.youtube.com/embed/${trailer.key}`}
+              title="Movie Trailer"
+              style={{ border: 0 }}
+              allowFullScreen
+            />
+          ) : (
+            <>
+              <img
+                src={backdropUrl}
+                alt=""
+                className="w-full object-cover rounded-t-xl"
+                style={{ aspectRatio: "16/9" }}
               />
-            ) : (
               <MovieDetails
                 selectedMovie={selectedMovie}
                 trailer={trailer}
                 setShowTrailer={setShowTrailer}
+                onClose={onClose}
               />
-            )}
-            <ModalFooter>
-              <Button
-                color="danger"
-                variant="light"
-                onPress={() => {
-                  onClose();
-                  setShowTrailer(false);
-                }}
-              >
-                Close
-              </Button>
-              <Button color="primary" onPress={onClose}>
-                Action
-              </Button>
-            </ModalFooter>
-          </div>
-        )}
+            </>
+          )
+        }
       </ModalContent>
     </Modal>
   );
 }
 
-const MovieDetails = ({ selectedMovie, trailer, setShowTrailer }) => {
-     const { id, title, name, release_date, overview } = selectedMovie;
+const MovieDetails = ({ selectedMovie, trailer, setShowTrailer, onClose }) => {
+  const {
+    id,
+    title,
+    name,
+    release_date,
+    first_air_date,
+    overview,
+    vote_average,
+    genre_ids,
+  } = selectedMovie;
   const { watchlist, addMovieToWatchlist, removeMovieFromWatchlist } =
     useWatchlistContext();
 
-  const handleAddToWatchlist = (movie) => {
-    addMovieToWatchlist(movie);
-  };
-  const handleRemoveFromWatchlist = (movie) => {
-    removeMovieFromWatchlist(movie.id);
-  };
+  const displayTitle = title || name;
+  const date = release_date || first_air_date;
+  const rating = vote_average ? vote_average.toFixed(1) : null;
+  const release_year = (date || "").split("-")[0];
+  const isInWatchlist = watchlist.some((m) => m.id === id);
 
-  const isMovieInWatchlist = () => {
-    return watchlist.find((movie) => id === movie.id) !== undefined;
+  const toggleWatchlist = () => {
+    if (isInWatchlist) {
+      removeMovieFromWatchlist(id);
+    } else {
+      addMovieToWatchlist(selectedMovie);
+    }
   };
 
   return (
-    <>
-      <ModalHeader className="text-4xl">
-        {title ? title : name}
-        <span className="px-2 font-normal text-slate-300">
-          {release_date && <ReleaseDate date={release_date} type="year" />}
+    <div className="p-5 flex flex-col gap-3 text-white">
+      <p className="font-bold text-lg">{displayTitle}</p>
+
+      <div className="flex items-center gap-2 text-xs text-zinc-400">
+        {rating && (
+          <span className="text-green-400 font-semibold">★ {rating}</span>
+        )}
+        {release_year && <span>{release_year}</span>}
+        <span className="border border-zinc-600 px-1 text-[10px] rounded">
+          HD
         </span>
-      </ModalHeader>
-      <ModalBody className="md:w-1/2 p-8 rounded-lg text-shadow-sm bg-black/40 shadow-lg">
-        <div className="flex gap-5">
-          <p>R</p>
-          <p>1h50m</p>
-          {release_date && <ReleaseDate date={release_date} type="full" />}
+      </div>
+
+      {genre_ids.length > 0 && (
+        <div className="flex flex-wrap gap-1 text-xs text-zinc-400">
+          {/* {genres.map((genre, i) => (
+            <React.Fragment key={genre}>
+              {i > 0 && <span className="text-zinc-600">·</span>}
+              <span>{genre}</span>
+            </React.Fragment>
+          ))} */}
         </div>
-        <p>{overview}</p>
-        <div className="flex gap-5">
-          <p>Horror</p>
-          <p>Occult</p>
-        </div>
-        <div className="flex gap-3">
-          {isMovieInWatchlist() ? (
-            <Button
-              color="primary"
-              onClick={() => handleRemoveFromWatchlist(selectedMovie)}
-            >
-              - Watchlist
-            </Button>
-          ) : (
-            <Button
-              color="primary"
-              onClick={() => handleAddToWatchlist(selectedMovie)}
-            >
-              + Watchlist
-            </Button>
-          )}
-          {trailer && (
-            <motion.button {...fadeInUp10}>
-              <Button color="primary" onClick={() => setShowTrailer(true)}>
-                <BiMoviePlay />
-                Play Trailer
-              </Button>
-            </motion.button>
-          )}
-        </div>
-      </ModalBody>
-    </>
+      )}
+
+      {overview && (
+        <p className="text-sm text-zinc-300 leading-relaxed">{overview}</p>
+      )}
+
+      <div className="flex items-center gap-2 mt-1">
+        <button
+          onClick={toggleWatchlist}
+          className="flex items-center gap-1 bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors"
+        >
+          {isInWatchlist ? "✓ Watchlist" : "+ Watchlist"}
+        </button>
+        {trailer && (
+          <motion.button
+            {...fadeInUp10}
+            onClick={() => setShowTrailer(true)}
+            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-zinc-600 text-zinc-300 hover:border-white hover:text-white transition-colors"
+          >
+            <BiMoviePlay />
+            Play Trailer
+          </motion.button>
+        )}
+        <button
+          onClick={onClose}
+          className="ml-auto text-xs text-zinc-500 hover:text-white transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
   );
 };
 
-/**
- * @typedef {Object} ReleaseDateProps
- * @property {string} date - ISO date string (e.g. "2024-03-11")
- * @property {"full"|"year"} type - Display format: "full" for MM/DD/YYYY, "year" for year only
- */
-
-/** @param {ReleaseDateProps} props */
-const ReleaseDate = ({ date, type }) => {
-
-  if (!date) {
-     console.warn("No date was recieved in ReleaseDate component..")
-     return
-  }
-
-  const dateObj = new Date(date);
-
-  const year = dateObj.getFullYear();
-  const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
-  const day = dateObj.getDate().toString().padStart(2, "0");
-
-  return (
-    <>
-      {(!type || type === "full") && <span>{`${month}/${day}/${year}`}</span>}
-      {type === "year" && <span>{`${year}`}</span>}
-    </>
-  );
-};
 
 export default MovieModal;
