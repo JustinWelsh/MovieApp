@@ -35,7 +35,7 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
     };
 
     fetchData();
-  }, [isOpen, id]);
+  }, [isOpen, id, media_type]);
 
   const backdropUrl = backdrop_path
     ? `https://image.tmdb.org/t/p/w1280${backdrop_path}`
