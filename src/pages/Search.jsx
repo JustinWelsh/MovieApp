@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useMovieSearchContext } from "../context/MovieSearchContext";
 import MovieCard from "../components/card/MovieCard";
 import MovieModal from "../components/modal/MovieModal";

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useWatchlistContext } from "../context/WatchlistContext";
 import { motion } from "framer-motion";
 import MovieModal from "../components/modal/MovieModal";
