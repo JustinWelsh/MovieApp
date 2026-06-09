@@ -11,10 +11,8 @@ const SearchBar = (props) => {
       fetch(`${baseUrl}&type=movie&s=${movieTitle}&page=1`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("initial call result", data);
           props.setApiData(data);
         });
-      console.log(movieTitle);
       setMovieTitle('')
     }
   };

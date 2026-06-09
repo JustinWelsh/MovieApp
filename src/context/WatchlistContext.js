@@ -11,7 +11,6 @@ const WatchlistProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState(loadWatchlistFromLocalStorage());
 
   useEffect(() => {
-    //  console.log("Context Effect", watchlist);
     const saveWatchlistToLocalStorage = (watchlist) => {
       localStorage.setItem("watchlist", JSON.stringify(watchlist));
     };
