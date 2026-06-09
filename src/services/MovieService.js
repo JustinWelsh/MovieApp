@@ -71,6 +71,10 @@ export async function fetchTrailer(mediaType, mediaId) {
  * @param {"movie" | "tv"} mediaType
  */
 export async function fetchDetails(mediaType = "movie", mediaId) {
+  if (!mediaType) {
+    console.warn("fetchDetails called without a mediaType");
+    return;
+  }
   if (!mediaId) {
     console.warn("fetchDetails called without a mediaId");
     return;
