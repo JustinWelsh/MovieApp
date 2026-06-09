@@ -3,11 +3,12 @@ import { Modal, ModalContent } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { BiMoviePlay } from "react-icons/bi";
 import { useWatchlistContext } from "../../context/WatchlistContext";
-import { fetchTrailer } from "../../services/MovieService";
+import { fetchDetails, fetchTrailer } from "../../services/MovieService";
 import { fadeInUp10 } from "../../_config/animations";
 
 function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
   const [trailer, setTrailer] = useState(null);
+  const [movieDetails, setMovieDetails] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const { id, backdrop_path, poster_path } = selectedMovie;
 
@@ -18,13 +19,18 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
     }
 
     setTrailer(null);
+    setMovieDetails(null);
 
     const fetchData = async () => {
       try {
-        const trailerData = await fetchTrailer(id);
+        const [trailerData, detailsData] = await Promise.all([
+          fetchTrailer(id),
+          fetchDetails(id),
+        ]);
         setTrailer(trailerData);
+        setMovieDetails(detailsData);
       } catch (error) {
-        console.error("Error Fetching Trailer Data:", error);
+        console.error("Error fetching modal data:", error);
       }
     };
 
@@ -66,6 +72,7 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
               />
               <MovieDetails
                 selectedMovie={selectedMovie}
+                movieDetails={movieDetails}
                 trailer={trailer}
                 setShowTrailer={setShowTrailer}
                 onClose={onClose}
@@ -78,61 +85,82 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
   );
 }
 
-const MovieDetails = ({ selectedMovie, trailer, setShowTrailer, onClose }) => {
+const MovieDetails = ({
+  selectedMovie,
+  movieDetails,
+  trailer,
+  setShowTrailer,
+  onClose,
+}) => {
+  //   const {
+  //     id,
+  //     title,
+  //     name,
+  //     release_date,
+  //     first_air_date,
+  //     overview,
+  //     vote_average,
+  //   } = selectedMovie;
   const {
-    id,
-    title,
-    name,
-    release_date,
-    first_air_date,
-    overview,
-    vote_average,
-    genre_ids,
-  } = selectedMovie;
-  const { watchlist, addMovieToWatchlist, removeMovieFromWatchlist } =
-    useWatchlistContext();
+    watchlist,
+    addMovieToWatchlist,
+    removeMovieFromWatchlist,
+    isMovieInWatchlist,
+  } = useWatchlistContext();
 
-  const displayTitle = title || name;
-  const date = release_date || first_air_date;
-  const rating = vote_average ? vote_average.toFixed(1) : null;
-  const release_year = (date || "").split("-")[0];
-  const isInWatchlist = watchlist.some((m) => m.id === id);
+  //   const displayTitle = title || name;
+  //   const date = release_date || first_air_date;
+  const rating = movieDetails?.vote_average
+    ? movieDetails?.vote_average.toFixed(1)
+    : null;
+  //   const release_year = (date || "").split("-")[0];
+  const isInWatchlist = isMovieInWatchlist(movieDetails?.id);
+
+  const genres = movieDetails?.genres ?? [];
+  const runtime = movieDetails?.runtime
+    ? `${Math.floor(movieDetails.runtime / 60)}h ${movieDetails.runtime % 60}m`
+    : null;
 
   const toggleWatchlist = () => {
     if (isInWatchlist) {
-      removeMovieFromWatchlist(id);
+      removeMovieFromWatchlist(selectedMovie.id);
     } else {
       addMovieToWatchlist(selectedMovie);
     }
   };
 
-  return (
+  console.log(movieDetails);
+
+  return movieDetails ? (
     <div className="p-5 flex flex-col gap-3 text-white">
-      <p className="font-bold text-lg">{displayTitle}</p>
+      <p className="font-bold text-lg">{movieDetails.title}</p>
 
       <div className="flex items-center gap-2 text-xs text-zinc-400">
         {rating && (
-          <span className="text-green-400 font-semibold">★ {rating}</span>
+          <span className="text-green-400 font-semibold">★ {"rating"}</span>
         )}
-        {release_year && <span>{release_year}</span>}
+        {"release_year" && <span>{"release_year"}</span>}
+        {runtime && <span>{runtime}</span>}
         <span className="border border-zinc-600 px-1 text-[10px] rounded">
           HD
         </span>
       </div>
 
-      {genre_ids.length > 0 && (
+      {genres.length > 0 && (
         <div className="flex flex-wrap gap-1 text-xs text-zinc-400">
-          {/* {genres.map((genre, i) => (
-            <React.Fragment key={genre}>
+          {genres.map((genre, i) => (
+            <React.Fragment key={genre.id}>
               {i > 0 && <span className="text-zinc-600">·</span>}
-              <span>{genre}</span>
+              <span>{genre.name}</span>
             </React.Fragment>
-          ))} */}
+          ))}
         </div>
       )}
 
-      {overview && (
-        <p className="text-sm text-zinc-300 leading-relaxed">{overview}</p>
+      {movieDetails?.overview && (
+        <p className="text-sm text-zinc-300 leading-relaxed">
+          {movieDetails?.overview}
+        </p>
       )}
 
       <div className="flex items-center gap-2 mt-1">
@@ -160,8 +188,7 @@ const MovieDetails = ({ selectedMovie, trailer, setShowTrailer, onClose }) => {
         </button>
       </div>
     </div>
-  );
-};
-
+  ) : null;
+};;;
 
 export default MovieModal;
