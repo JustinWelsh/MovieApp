@@ -49,11 +49,12 @@ export async function fetchTrailer(movieID) {
 /**
  * Fetches details from TMDB.
  * @param {number} movieID
+ * @param {"movie" | "tv"} type
  */
-export async function fetchDetails(movieID) {
+export async function fetchDetails(type = "movie", movieID) {
   if (!movieID) return;
 
-  const response = await fetch(`/api/details?movieId=${movieID}`);
+  const response = await fetch(`/api/details?type=${type}&movieId=${movieID}`);
 
   if (!response.ok) {
     throw new Error(

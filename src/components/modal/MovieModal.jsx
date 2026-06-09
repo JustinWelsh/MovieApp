@@ -10,7 +10,7 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
   const [trailer, setTrailer] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
-  const { id, backdrop_path, poster_path } = selectedMovie;
+  const { id, backdrop_path, poster_path, media_type } = selectedMovie;
 
   useEffect(() => {
     if (!isOpen) {
@@ -25,7 +25,7 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
       try {
         const [trailerData, detailsData] = await Promise.all([
           fetchTrailer(id),
-          fetchDetails(id),
+          fetchDetails(media_type, id),
         ]);
         setTrailer(trailerData);
         setMovieDetails(detailsData);
@@ -99,11 +99,12 @@ const MovieDetails = ({
   const { addMovieToWatchlist, removeMovieFromWatchlist, isMovieInWatchlist } =
     useWatchlistContext();
 
-  const { vote_average, release_date, id, genres, runtime, title, overview } =
-    movieDetails;
+  const { vote_average, id, genres, runtime, overview } = movieDetails;
 
+  const title = movieDetails.title || movieDetails.name;
+  const releaseDate = movieDetails.release_date || movieDetails.first_air_date;
   const rating = vote_average ? vote_average.toFixed(1) : null;
-  const releaseYear = release_date.split("-")[0];
+  const releaseYear = releaseDate?.split("-")[0];
   const isInWatchlist = isMovieInWatchlist(id);
 
   const runTime = runtime
@@ -117,8 +118,6 @@ const MovieDetails = ({
       addMovieToWatchlist(selectedMovie);
     }
   };
-
-  console.log(movieDetails);
 
   return (
     <div className="p-5 flex flex-col gap-3 text-white">
