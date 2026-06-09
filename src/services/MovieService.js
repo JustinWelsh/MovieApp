@@ -23,24 +23,43 @@ export async function fetchTrending(type = "all") {
 }
 
 export async function searchByMovieTitle(movieTitle) {
-     if (!movieTitle) return;
- 
-  const response = await fetch(`/api/search?query=${encodeURIComponent(movieTitle)}`);
+  if (!movieTitle) return;
+
+  const response = await fetch(
+    `/api/search?query=${encodeURIComponent(movieTitle)}`,
+  );
 
   if (!response.ok) {
-    throw new Error(`Error fetching searched movie data: Status ${response.status}`);
+    throw new Error(
+      `Error fetching searched movie data: Status ${response.status}`,
+    );
   }
 
   return response.json();
 }
 
-export async function fetchTrailer(movieID) {
-     if (!movieID) return;
+/**
+ * @param {number} mediaId
+ * @param {"movie" | "tv"} mediaType
+ */
+export async function fetchTrailer(mediaType, mediaId) {
+  if (!mediaType) {
+    console.warn("fetchTrailer called without a mediaType");
+    return;
+  }
+  if (!mediaId) {
+    console.warn("fetchTrailer called without a mediaId");
+    return;
+  }
 
-  const response = await fetch(`/api/trailer?movieId=${movieID}`);
+  const response = await fetch(
+    `/api/trailer?mediaType=${mediaType}&mediaId=${mediaId}`,
+  );
 
   if (!response.ok) {
-    throw new Error(`Error fetching movie trailer data: Status ${response.status}`);
+    throw new Error(
+      `Error fetching movie trailer data: Status ${response.status}`,
+    );
   }
 
   return response.json();

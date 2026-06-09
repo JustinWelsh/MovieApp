@@ -1,12 +1,12 @@
 module.exports = async function handler(req, res) {
-  const { movieId } = req.query;
+  const { mediaType, mediaId } = req.query;
 
-  if (!movieId) {
-    return res.status(400).json({ error: "Missing movieId parameter" });
+  if (!mediaId) {
+    return res.status(400).json({ error: "Missing mediaId parameter" });
   }
 
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US&api_key=${process.env.TMDB_KEY}`
+    `https://api.themoviedb.org/3/${mediaType}/${mediaId}/videos?language=en-US&api_key=${process.env.TMDB_KEY}`,
   );
 
   if (!response.ok) {

@@ -24,7 +24,7 @@ function MovieModal({ isOpen, onOpenChange, selectedMovie }) {
     const fetchData = async () => {
       try {
         const [trailerData, detailsData] = await Promise.all([
-          fetchTrailer(id),
+          fetchTrailer(media_type, id),
           fetchDetails(media_type, id),
         ]);
         setTrailer(trailerData);
@@ -99,6 +99,8 @@ const MovieDetails = ({
   const { addMovieToWatchlist, removeMovieFromWatchlist, isMovieInWatchlist } =
     useWatchlistContext();
 
+    console.log(movieDetails);
+    
   const { vote_average, id, genres, runtime, overview } = movieDetails;
 
   const title = movieDetails.title || movieDetails.name;
