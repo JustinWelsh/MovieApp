@@ -99,8 +99,6 @@ const MovieDetails = ({
   const { addMovieToWatchlist, removeMovieFromWatchlist, isMovieInWatchlist } =
     useWatchlistContext();
 
-    console.log(movieDetails);
-    
   const { vote_average, id, genres, runtime, overview } = movieDetails;
 
   const title = movieDetails.title || movieDetails.name;
