@@ -99,7 +99,8 @@ const MovieDetails = ({
   const { addMovieToWatchlist, removeMovieFromWatchlist, isMovieInWatchlist } =
     useWatchlistContext();
 
-  const { vote_average, id, genres, runtime, overview } = movieDetails;
+    const { vote_average, id, genres, runtime, overview, tagline } =
+      movieDetails;
 
   const title = movieDetails.title || movieDetails.name;
   const releaseDate = movieDetails.release_date || movieDetails.first_air_date;
@@ -143,6 +144,12 @@ const MovieDetails = ({
             </React.Fragment>
           ))}
         </div>
+      )}
+
+      {tagline && (
+        <p className="text-sm text-zinc-400 leading-relaxed italic">
+          {tagline}
+        </p>
       )}
 
       {overview && (
