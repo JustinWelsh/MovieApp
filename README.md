@@ -1,4 +1,4 @@
-# CineTrack
+# MovieApp
 
 A React app for browsing movies, watching trailers, and managing a personal watchlist — powered by the TMDB API.
 
