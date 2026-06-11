@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**CineTrack** — A React app for browsing movies, searching, and managing a watchlist. Uses TMDB API via Vercel serverless functions.
+**MovieApp** — A React app for browsing movies, searching, and managing a watchlist. Uses TMDB API via Vercel serverless functions.
 
 ## Commands
 
