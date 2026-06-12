@@ -16,5 +16,5 @@ Code quality and structural improvements identified during review.
 ## Consider (Not Urgent)
 
 - [x] **Split `MovieSearchContext` into two concerns** — `selectedMovie` moved to local state in each page; context now only owns `searchedMovies`.
-- [ ] **Extract data-fetching from page components into custom hooks** — `Home.jsx` has multiple `useEffect` + `useState` pairs for fetching. A `src/hooks/` directory with hooks like `useHomeData()` would keep pages clean and make fetching logic testable.
+- [x] **Extract data-fetching from page components into custom hooks** — fetch logic moved to `src/hooks/useHomeData.js`.
 - [ ] **Clarify `MovieCarouselAnimated.jsx`** — two carousel files exist in `src/components/carousel/`. Determine if one is deprecated and either remove it or document the distinction.
