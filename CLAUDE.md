@@ -10,15 +10,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Read the following to get the full context of the project.
 
-- @context/01-project-overview.md
-- @context/02-coding-standards.md
-- @context/03-ai-interaction.md
+- @context/project-overview.md
+- @context/coding-standards.md
+- @context/ai-interaction.md
+- @context/current-feature.md
 - @context/current-todos.md
 
 ## Commands
 
 ```bash
-npm run serve | vercel dev   # Local development (required — runs React app + API serverless functions)
+npm run serve
+ | vercel dev   # Local development (required — runs React app + API serverless functions)
 npm run build
 npm test
 npm test -- --testPathPattern=MyComponent  # Run a single test file
