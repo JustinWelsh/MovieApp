@@ -1,18 +1,18 @@
+import { useState } from "react";
 import { useWatchlistContext } from "../context/WatchlistContext";
 import { motion } from "framer-motion";
 import MovieModal from "../components/modal/MovieModal";
 import { useDisclosure } from "@nextui-org/react";
 import MovieCarousel from "../components/carousel/MovieCarousel";
-import { useMovieSearchContext } from "../context/MovieSearchContext";
 
 const Watchlist = () => {
   const { watchlist } = useWatchlistContext();
-  const { selectedMovie, updateSelectedMovie } = useMovieSearchContext();
+  const [selectedMovie, setSelectedMovie] = useState({});
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleClick = (movie) => {
-    updateSelectedMovie(movie);
+    setSelectedMovie(movie);
     onOpen();
   };
 

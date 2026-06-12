@@ -4,13 +4,9 @@ const MovieSearchContext = createContext(null);
 
 const MovieSearchProvider = ({ children }) => {
   const [searchedMovies, setSearchedMovies] = useState({});
-  const [selectedMovie, setSelectedMovie] = useState({});
 
   const updateSearchedMovies = useCallback((obj) => {
     setSearchedMovies(obj);
-  }, []);
-  const updateSelectedMovie = useCallback((obj) => {
-    setSelectedMovie(obj);
   }, []);
 
   return (
@@ -18,8 +14,6 @@ const MovieSearchProvider = ({ children }) => {
       value={{
         searchedMovies,
         updateSearchedMovies,
-        selectedMovie,
-        updateSelectedMovie,
       }}
     >
       {children}

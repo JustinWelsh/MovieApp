@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NextUIProvider, Skeleton } from "@nextui-org/react";
 import { useDisclosure } from "@nextui-org/react";
 import { motion } from "framer-motion";
@@ -7,10 +7,9 @@ import MovieCarousel from "../components/carousel/MovieCarousel";
 import MovieModal from "../components/modal/MovieModal";
 import HeroBanner from "../components/hero/HeroBanner";
 import { fadeInUp30 } from "../_config/animations";
-import { useMovieSearchContext } from "../context/MovieSearchContext";
 
 const Home = () => {
-  const { selectedMovie, updateSelectedMovie } = useMovieSearchContext();
+  const [selectedMovie, setSelectedMovie] = useState({});
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularTV, setPopularTV] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -52,7 +51,7 @@ const Home = () => {
   }, []);
 
   const handleMovieClick = (movie) => {
-    updateSelectedMovie(movie);
+    setSelectedMovie(movie);
     onOpen();
   };
 

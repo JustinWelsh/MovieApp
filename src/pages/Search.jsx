@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMovieSearchContext } from "../context/MovieSearchContext";
 import MovieCard from "../components/card/MovieCard";
 import MovieModal from "../components/modal/MovieModal";
@@ -5,12 +6,12 @@ import { useDisclosure } from "@nextui-org/react";
 
 const Search = () => {
   const { searchedMovies } = useMovieSearchContext();
-  const { selectedMovie, updateSelectedMovie } = useMovieSearchContext();
+  const [selectedMovie, setSelectedMovie] = useState({});
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleClick = (movie) => {
-    updateSelectedMovie(movie);
+    setSelectedMovie(movie);
     onOpen();
   };
   return (
