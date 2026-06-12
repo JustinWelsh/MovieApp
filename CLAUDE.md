@@ -10,10 +10,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Read the following to get the full context of the project.
 
-- @context/project-overview.md
-- @context/coding-standards.md
-- @context/ai-interaction.md
-- @context/current-feature.md
+- @context/01-project-overview.md
+- @context/02-coding-standards.md
+- @context/03-ai-interaction.md
+- @context/current-todos.md
 
 ## Commands
 
