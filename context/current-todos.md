@@ -17,4 +17,3 @@ Code quality and structural improvements identified during review.
 
 - [x] **Split `MovieSearchContext` into two concerns** — `selectedMovie` moved to local state in each page; context now only owns `searchedMovies`.
 - [x] **Extract data-fetching from page components into custom hooks** — fetch logic moved to `src/hooks/useHomeData.js`.
-- [ ] **Clarify `MovieCarouselAnimated.jsx`** — two carousel files exist in `src/components/carousel/`. Determine if one is deprecated and either remove it or document the distinction.
