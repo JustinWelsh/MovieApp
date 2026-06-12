@@ -1,63 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NextUIProvider, Skeleton } from "@nextui-org/react";
 import { useDisclosure } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { fetchPopular, fetchTrending } from "../services/MovieService";
 import MovieCarousel from "../components/carousel/MovieCarousel";
 import MovieModal from "../components/modal/MovieModal";
 import HeroBanner from "../components/hero/HeroBanner";
 import { fadeInUp30 } from "../_config/animations";
+import useHomeData from "../hooks/useHomeData";
 
 const Home = () => {
+  const { popularMovies, popularTV, trendingMovies, trendingTV, loading } =
+    useHomeData();
   const [selectedMovie, setSelectedMovie] = useState({});
-  const [popularMovies, setPopularMovies] = useState([]);
-  const [popularTV, setPopularTV] = useState([]);
-  const [trendingMovies, setTrendingMovies] = useState([]);
-  const [trendingTV, setTrendingTV] = useState([]);
-  const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const [popularMoviesData, trendingMoviesData] = await Promise.all([
-          fetchPopular("movie"),
-          fetchTrending("movie"),
-        ]);
-        setPopularMovies(popularMoviesData);
-        setTrendingMovies(trendingMoviesData);
-      } catch (error) {
-        console.error("Error Fetching Movie Data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const fetchTvData = async () => {
-      try {
-        const [popularTVData, trendingTVData] = await Promise.all([
-          fetchPopular("tv"),
-          fetchTrending("tv"),
-        ]);
-        setPopularTV(popularTVData);
-        setTrendingTV(trendingTVData);
-      } catch (error) {
-        console.error("Error Fetching TV Data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovieData();
-    fetchTvData();
-  }, []);
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
     onOpen();
   };
 
-  const heroConfig = {
-    movie: trendingMovies[0],
-  };
   const carouselConfig = [
     { id: "trending-movies", title: "Trending Movies", movies: trendingMovies },
     { id: "trending-tv", title: "Trending TV Shows", movies: trendingTV },
@@ -74,7 +35,7 @@ const Home = () => {
       />
       <div className="-mt-16">
         <HeroBanner
-          movie={heroConfig.movie}
+          movie={trendingMovies[0]}
           onMoreInfo={handleMovieClick}
           onPlay={() => handleMovieClick(trendingMovies[0])}
         />
