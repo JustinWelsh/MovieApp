@@ -6,8 +6,8 @@ Code quality and structural improvements identified during review.
 
 ## Fix Now
 
-- [ ] **Extract `GENRE_MAP` to a shared constants file** — currently hardcoded in `src/components/card/MovieCard.jsx:8-28`. Move to `src/_config/genres.js` or `src/constants/genres.js` so it can be reused in the modal and elsewhere.
-- [ ] **Move router outside `App` component render** — `createBrowserRouter(...)` is called inside the component body in `src/App.js:13`, causing it to be recreated every render. Move it above the component or into a `useMemo`.
+- [x] **Extract `GENRE_MAP` to a shared constants file** — moved to `src/_config/genres.js`.
+- [x] **Move router outside `App` component render** — `createBrowserRouter(...)` moved above the component in `src/App.js`.
 - [ ] **Delete `src/components/SearchBar.jsx`** — legacy/unused component that calls OMDB directly. Superseded by the search input in `NavBar`.
 - [ ] **Fix stale copy-paste comments** — both `src/context/MovieSearchContext.js` and `src/context/WatchlistContext.js` have `// contexts/ThemeContext.js` at the top.
 
