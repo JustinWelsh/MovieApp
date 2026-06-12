@@ -9,8 +9,7 @@ import { MovieSearchProvider } from "./context/MovieSearchContext";
 import { WatchlistProvider } from "./context/WatchlistContext";
 import MainLayout from "./layout/MainLayout";
 
-const App = () => {
-  const router = createBrowserRouter([
+const router = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout />,
@@ -36,6 +35,7 @@ const App = () => {
     },
   ]);
 
+const App = () => {
   return (
     <WatchlistProvider>
       <MovieSearchProvider>
@@ -44,6 +44,5 @@ const App = () => {
     </WatchlistProvider>
   );
 };
-
 
 export default App;
