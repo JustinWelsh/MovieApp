@@ -87,6 +87,19 @@ The `TMDB_KEY` environment variable is read server-side only — it is never bun
 3. Add `TMDB_KEY` as an environment variable in your Vercel project settings
 4. Deploy
 
+## Changelog
+
+### 2026-06-11
+
+- **Extracted `GENRE_MAP` to `src/_config/genres.js`** — shared constant, importable anywhere instead of hardcoded in `MovieCard`
+- **Moved `createBrowserRouter` outside `App` component** — prevents the router from being recreated on every render
+- **Deleted `src/components/SearchBar.jsx`** — legacy component that called OMDB directly; superseded by the NavBar search
+- **Fixed stale copy-paste comments in context files** — removed `// contexts/ThemeContext.js` header from `MovieSearchContext` and `WatchlistContext`; also removed unused `React` imports
+- **Split `MovieSearchContext`** — `selectedMovie` moved to local `useState` in each page; context now only owns `searchedMovies`
+- **Extracted `useHomeData` hook** — all data-fetching logic moved from `Home.jsx` into `src/hooks/useHomeData.js`
+
+---
+
 ## Available Scripts
 
 | Command | Description |
