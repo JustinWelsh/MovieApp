@@ -1,5 +1,4 @@
-// contexts/ThemeContext.js
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const WatchlistContext = createContext(null);
 
